@@ -1,83 +1,167 @@
-// the structure for round robin scheduling algorithm with gantt chart.
- 
-typedef struct struct-rra
-{
-int process_id, burst_time, burst_time_bal;
-int total_average_time, waiting_time;
-} PCB;
-int main()    {
-  struct-rra process[10];
-  int i,j,k,n,tq;
-  int sum_burst_time=0,sum_total_average_time=0,sum_waiting_time=0,tq_used=0;
-  int gantt[2][50];
-  printf("Enter number of process required : ");
-  scanf("%d",&amp;n);
-  for(i=0;i&lt;n;i++) 
-  {
-    printf("Burst-time of process %d: ",i+1);
-    process[i].process_id = i+1;
-    scanf("%d",&amp;process[i].burst_time);
-    process[i].burst_time_bal = process[i].burst_time;
-  }
-  printf("enter time quantums of the process : ");
-  scanf("%d",&amp;tq);
-  for( i=0;i&lt;n;i++)
-    sum_burst_time += process[i].burst_time;
-  printf("\nsum of burst time = %d\n",sum_burst_time);
-  k=0;
-  do
-  {
-    for( i=0;i&lt;n;i++) {
-      if( process[i].burst_time_bal &gt; 0 &amp;&amp; process[i].burst_time_bal &lt;= tq )
-      {
-        tq_used += process[i].burst_time_bal;
-        process[i].total_average_time = tq_used;
-        process[i].waiting_time = process[i].total_average_time - process[i].burst_time;
-        process[i].burst_time_bal = 0;
-        gantt[0][k] = process[i].process_id;
-        gantt[1][k] = tq_used;
-        k++;
-      }
-      else if( process[i].burst_time_bal &gt;0 )
-      {
-        tq_used += tq;
-        process[i].burst_time_bal -= tq;
-        gantt[0][k] = process[i].process_id;
-        gantt[1][k] = tq_used;
-        k++;
-      }
-      else if( process[i].burst_time_bal &lt; 0 )
-      {
-        printf("\nError: burst time Negative \n");
-        exit(1);
-      }
-  } while( tq_used != sum_burst_time);
-printf("\n <strong>round robin scheduling program in c with gantt chart</strong> \n\n");
-printf("process_id: ");
-for( i=0; i&lt;n;i++)
-printf("%4d",gantt[0][i]);
-printf("\n\nTime: ");
-for( i=0; i&lt;n;i++)
-printf("%4d",gantt[1][i]);
-for( i=0;i&lt;n;i++)
-sum_waiting_time += process[i].waiting_time;
-for( i=0;i&lt;n;i++)
-sum_total_average_time += process[i].total_average_time;
-printf("\n\nprocess_id: ");
-for( i=0;i&lt;n;i++)
-printf("%4d",i+1);
-printf("\nburst_timeime:");
-for( i=0;i&lt;n;i++)
-printf("%4d",process[i].burst_time);
-printf("\n Total <span style="text-decoration: underline;">round robin scheduling program in c with arrival time</span> : ");
-for( i=0;i&lt;n;i++)
-printf("%4d",process[i].total_average_time);
-printf("\nwaiting_timeime:");
-for( i=0;i&lt;n;i++)
-printf("%4d",process[i].waiting_time);
-printf("\n\nTotal waiting time = %d\n",sum_waiting_time);
-printf("Average waiting time = %.2f\n",(float)sum_waiting_time/n);
-printf("\nTotal turn around time = %d\n",sum_total_average_time);
-printf("Average turn around time = %.2f\n\n",(float)sum_total_average_time/n);
-return 0;
+
+// Java program to implement Round Robin 
+// Scheduling with different arrival time 
+class roundrobin { 
+	public static void roundRobin(String p[], int a[], 
+								int b[], int n) 
+	{ 
+		// result of average times 
+		int res = 0; 
+		int resc = 0; 
+
+		// for sequence storage 
+		String seq = new String(); 
+
+		// copy the burst array and arrival array 
+		// for not effecting the actual array 
+		int res_b[] = new int[b.length]; 
+		int res_a[] = new int[a.length]; 
+
+		for (int i = 0; i < res_b.length; i++) { 
+			res_b[i] = b[i]; 
+			res_a[i] = a[i]; 
+		} 
+
+		// critical time of system 
+		int t = 0; 
+
+		// for store the waiting time 
+		int w[] = new int[p.length]; 
+
+		// for store the Completion time 
+		int comp[] = new int[p.length]; 
+
+		while (true) { 
+			boolean flag = true; 
+			for (int i = 0; i < p.length; i++) { 
+
+				// these condition for if 
+				// arrival is not on zero 
+
+				// check that if there come before qtime 
+				if (res_a[i] <= t) { 
+					if (res_a[i] <= n) { 
+						if (res_b[i] > 0) { 
+							flag = false; 
+							if (res_b[i] > n) { 
+
+								// make decrease the b time 
+								t = t + n; 
+								res_b[i] = res_b[i] - n; 
+								res_a[i] = res_a[i] + n; 
+								seq += "->" + p[i]; 
+							} 
+							else { 
+
+								// for last time 
+								t = t + res_b[i]; 
+
+								// store comp time 
+								comp[i] = t - a[i]; 
+
+								// store wait time 
+								w[i] = t - b[i] - a[i]; 
+								res_b[i] = 0; 
+
+								// add sequence 
+								seq += "->" + p[i]; 
+							} 
+						} 
+					} 
+					else if (res_a[i] > n) { 
+
+						// is any have less arrival time 
+						// the coming process then execute them 
+						for (int j = 0; j < p.length; j++) { 
+
+							// compare 
+							if (res_a[j] < res_a[i]) { 
+								if (res_b[j] > 0) { 
+									flag = false; 
+									if (res_b[j] > n) { 
+										t = t + n; 
+										res_b[j] = res_b[j] - n; 
+										res_a[j] = res_a[j] + n; 
+										seq += "->" + p[j]; 
+									} 
+									else { 
+										t = t + res_b[j]; 
+										comp[j] = t - a[j]; 
+										w[j] = t - b[j] - a[j]; 
+										res_b[j] = 0; 
+										seq += "->" + p[j]; 
+									} 
+								} 
+							} 
+						} 
+
+						// now the previous according to 
+						// ith is process 
+						if (res_b[i] > 0) { 
+							flag = false; 
+
+							// Check for greaters 
+							if (res_b[i] > n) { 
+								t = t + n; 
+								res_b[i] = res_b[i] - n; 
+								res_a[i] = res_a[i] + n; 
+								seq += "->" + p[i]; 
+							} 
+							else { 
+								t = t + res_b[i]; 
+								comp[i] = t - a[i]; 
+								w[i] = t - b[i] - a[i]; 
+								res_b[i] = 0; 
+								seq += "->" + p[i]; 
+							} 
+						} 
+					} 
+				} 
+
+				// if no process is come on thse critical 
+				else if (res_a[i] > t) { 
+					t++; 
+					i--; 
+				} 
+			} 
+			// for exit the while loop 
+			if (flag) { 
+				break; 
+			} 
+		} 
+
+		System.out.println("name ctime wtime"); 
+		for (int i = 0; i < p.length; i++) { 
+			System.out.println(" " + p[i] + " " + comp[i] 
+							+ " " + w[i]); 
+
+			res = res + w[i]; 
+			resc = resc + comp[i]; 
+		} 
+
+		System.out.println("Average waiting time is "
+						+ (float)res / p.length); 
+		System.out.println("Average compilation time is "
+						+ (float)resc / p.length); 
+		System.out.println("Sequence is like that " + seq); 
+	} 
+
+	// Driver Code 
+	public static void main(String args[]) 
+	{ 
+		// name of the process 
+		String name[] = { "p1", "p2", "p3", "p4" }; 
+
+		// arrival for every process 
+		int arrivaltime[] = { 0, 1, 2, 3 }; 
+
+		// burst time for every process 
+		int bursttime[] = { 10, 4, 5, 3 }; 
+
+		// quantum time of each process 
+		int q = 3; 
+
+		// cal the function for output 
+		roundRobin(name, arrivaltime, bursttime, q); 
+	} 
 }
