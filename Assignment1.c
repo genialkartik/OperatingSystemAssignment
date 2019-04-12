@@ -214,5 +214,6 @@ for(i=0;i<=k-1;i++){
 	//printf("\t%d\t\t%d\t\t%d\t\t%d\t\t%d",i,at[i],bt[i],ctime[i],tat[i],wt[i]);
 printf("9\n");
 }
+	
 
 }
