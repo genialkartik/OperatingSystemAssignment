@@ -1,15 +1,14 @@
-
-
 #include<stdio.h>
 int main(){
-int n, time=0,i=0,j,k=0,total_bt=0,temp1,temp2,temp3,tt,temp4 ;
+int n, time=0,i=0,j,total_bt=0,temp1,temp2,temp3,temp4 ;
 int q1=3,q2=6;
-int front=-1,f=-1;
-int rear=-1,r=-1;
+int front=-1;
+int rear=-1;
 int at[i],bt[i],rbt[i],wt[i],ctime[i],tat[i],p[i];
 int flag=0;
 int ar[i];
 int queue_1[total_bt];
+int totalwt,totaltat;
 printf("\nEnter the no of process: ");
 scanf("%d",&n);                    //total no of process
 for(i=0;i<=n-1;i++){                //entering at and bt
@@ -20,7 +19,7 @@ for(i=0;i<=n-1;i++){                //entering at and bt
     total_bt=total_bt+bt[i];
     p[i]=i;
     }
-printf("\n\tProcess\t|\tArival Time\t|\tBurst Time\t|");
+printf("\n\tProcess\t|\tArival Time\t|\tBurst Time\t|\tcompilation\t|\tturn around\t|\twaiting time\n");
 //sorting process in accending ordre wrt at
 for(i=0;i<=n-1;i++){
     for(j=0;j<n-i-1;j++){
@@ -48,15 +47,11 @@ if(rear==total_bt-1){
     printf("\nOverflow");
     }
 else{
-    printf("\n\nfirst process entered.");
     if (front == - 1)
         front = 0;
     rear=rear+1;
     queue_1[rear]=rbt[0];
     
-    printf("\nqueue_1=%d added",queue_1[rear]);
-    printf("\nqueue_1[front]:%d",queue_1[front]);
-    printf("\nrbt[%d]: %d\n\n",i,rbt[i]);
     }
 //process scheduling initiated
 int sum=0;
@@ -66,13 +61,6 @@ int count=0;
 int x=0;
 
 do{
-    if (front == - 1)
-        front = 0;
-        
-    if(front == - 1 || front>rear)
-        printf("\nunderflow");
-
-    else{
     flag=queue_1[front];
     for(j=0;j<n;j++){
         if(rbt[j]==flag){
@@ -121,10 +109,12 @@ do{
             ctime[i]=time;
             tat[i]=ctime[i]-at[i];
             wt[i]=tat[i]-bt[i];
+            totalwt+=ctime[i];
+                totaltat+=rbt[i];
         }
         
         
-        printf("\t%d\t\t%d\t\t%d\t\t%d\t\t%d",i,at[i],bt[i],ctime[i],tat[i],wt[i]);
+        printf("\n\t%d\t\t%d\t\t%d\t\t%d\t\t%d",i,at[i],bt[i],ctime[i],tat[i],wt[i]);
 
     }
 
@@ -160,18 +150,15 @@ do{
             ctime[i]=time;
             tat[i]=ctime[i]-at[i];
             wt[i]=tat[i]-bt[i];
-            printf("\t%d\t\t%d\t\t%d\t\t%d\t\t%d",i,at[i],bt[i],ctime[i],tat[i],wt[i]);
+            totalwt+=ctime[i];
+                totaltat+=rbt[i];
+            printf("\n\t%d\t\t%d\t\t%d\t\t%d\t\t%d",i,at[i],bt[i],ctime[i],tat[i],wt[i]);
         
         }
      }
     else if(count>2){
         
-            if(front==-1&&f==-1){
-                front=0;
-                f=0;
-            }
-            else{
-                
+            
                 time=time+rbt[i];
                 for(j=i+1;j<n;j++){
                     if(at[j]<=time){
@@ -182,12 +169,20 @@ do{
                 ctime[i]=time;
                 tat[i]=ctime[i]-at[i];
                 wt[i]=tat[i]-bt[i];
-                printf("\t%d\t\t%d\t\t%d\t\t%d\t\t%d",i,at[i],bt[i],ctime[i],tat[i],wt[i]);
-            }
-        }    
-    }
+                totalwt+=ctime[i];
+                totaltat+=rbt[i];
+                printf("\n\t%d\t\t%d\t\t%d\t\t%d\t\t%d",i,at[i],bt[i],ctime[i],tat[i],wt[i]);
+            
+        }
+    
+    i++;
     sum+=time;
     count=0;
 
 }while(sum!=total_bt);
+float avgwt=totalwt*1.0/n;
+float avgtat=totaltat*1.0/n;
+printf("\nAverage waiting time: %f",avgwt);
+printf("\nAverage TurnAround Time: %f",avgtat);
+
 }
