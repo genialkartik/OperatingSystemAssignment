@@ -2,7 +2,7 @@
 
 #include<stdio.h>
 int main(){
-int n, time=0,i=0,j,k=0,total_bt=0,temp1,temp2,temp3,tt,time4;
+int n, time=0,i=0,j,k=0,total_bt=0,temp1,temp2,temp3,tt,temp4 ;
 int q1=3,q2=6;
 int front=-1,f=-1;
 int rear=-1,r=-1;
@@ -64,7 +64,7 @@ i=0;
 p[i]=0;
 int count=0;
 int x=0;
-printf("\n1 flag[%d]: %d",i,flag[i]);
+
 do{
     if (front == - 1)
         front = 0;
@@ -73,16 +73,21 @@ do{
         printf("\nunderflow");
 
     else{
-    rbt[i]=queue_1[front];
-    ar[x]=p[i];
+    flag=queue_1[front];
+    for(j=0;j<n;j++){
+        if(rbt[j]==flag){
+            ar[x]=j;
+        }
+    }
     x++;
+    rbt[i]=flag;
     front=front+1;
     for(j=0;j<x;j++){
-         if(ar[j]==p[i]){
+         if(rbt[ar[j]]==rbt[i]){
             count++;
        }   
     }
-    if(count==){
+    if(count==1){
         
         //if process traversed first time
         if(rbt[i]>q1){
@@ -159,7 +164,7 @@ do{
         
         }
      }
-    else if(count>1){
+    else if(count>2){
         
             if(front==-1&&f==-1){
                 front=0;
@@ -167,7 +172,7 @@ do{
             }
             else{
                 
-                time=time+temp_rbt[i];
+                time=time+rbt[i];
                 for(j=i+1;j<n;j++){
                     if(at[j]<=time){
                     rear=rear+1;
