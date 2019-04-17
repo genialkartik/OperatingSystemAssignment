@@ -126,8 +126,8 @@ int main()
         scanf("%d",&Process[j]);
     }
     
-    int b1[34],b2[34],b3[34];
-    int p1[34],p2[34],p3[34];
+    int b1[99],b2[99],b3[99];
+    int p1[99],p2[99],p3[99];
     for (i = 0; i <m; i++) {
       b1[i]=Block[i];
       b2[i]=Block[i];
