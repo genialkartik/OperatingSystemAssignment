@@ -1,5 +1,5 @@
 # OperatingSystemAssignment
-It is an Assignment, assigned in Operating System.
+It is an Assignment, designated in Operating System.
 
 Problem 1:
 
