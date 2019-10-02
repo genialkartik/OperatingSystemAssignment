@@ -1,4 +1,4 @@
-# OperatingSystemAssignment
+# Operating System Assignment
 It is an Assignment, designated in Operating System.
 
 ## Problem 1:
@@ -13,5 +13,5 @@ Develop a scheduler which submits the processes to the processor in the above de
 Given five memory partitions of 100 KB, 500 KB, 200 KB, 300 KB, and 600 KB (in order), how would each of the first-fit, best-fit, and worst-fit algorithms place processes of 212 KB, 417 KB, 112 KB, and 426 KB (in order)? Write a program in C which will print the mapping of processes with memory partitions for both the algorithms.
 
 ## Screenshot:
-
+This is the sample screenshot.
 ![Testing](https://user-images.githubusercontent.com/32240906/65753418-9bc99200-e12c-11e9-9f28-b2f9b5789e92.png)
